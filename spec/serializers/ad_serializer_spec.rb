@@ -12,13 +12,15 @@ RSpec.describe AdSerializer do
   end
 
   let(:attributes) do
-    ad.slice(
-      :title,
-      :description,
-      :city,
-      :lat,
-      :lon
-    ).symbolize_keys
+    ad.values.select do |attr|
+      %i[
+        title
+        description
+        city
+        lat
+        lon
+      ].include?(attr)
+    end
   end
 
   it 'returns ad representation' do

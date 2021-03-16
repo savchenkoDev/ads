@@ -1,6 +1,3 @@
-require './app/models/ad.rb'
-require './app/services/basic_service.rb'
-
 module Ads
   class CreateService
     prepend BasicService
@@ -11,18 +8,19 @@ module Ads
       option :city
     end
 
-    # option :user
     option :user_id
 
     attr_reader :ad
 
     def call
-      ad_params = @ad.to_h.merge!(user_id: @user_id)
-      @ad = ::Ad.new(ad_params)
-      # @ad = @user.ads.new(@ad.to_h)
-      return fail!(@ad.errors) unless @ad.save
+      @ad = ::Ad.new(@ad.to_h)
+      @ad.user_id = @user_id
 
-      # GeocodingJob.perform_later(@ad)
+      if @ad.valid?
+        @ad.save
+      else
+        fail!(@ad.errors)
+      end
     end
   end
 end

@@ -1,9 +1,6 @@
 RSpec.describe ErrorSerializer do
   subject { described_class }
 
-  before { I18n.locale = :en } 
-  after { I18n.locale = :ru } 
-
   describe 'from_messages' do
     context 'with single error message' do
       let(:message) { 'Error message' }
@@ -49,41 +46,32 @@ RSpec.describe ErrorSerializer do
 
   describe 'from_model' do
     let(:model) do
-      Class.new do
-        include ActiveModel::Model
-
-        attr_accessor :blue, :green
-
-        validates :blue, :green, presence: true
-        validates :green, inclusion: { in: [1] }
-
-        def self.name
-          'Model'
-        end
-      end.new
-    end
-
-    before do
-      model.validate
+      double(
+        'model',
+        errors: {
+          blue: ['не может быть пустым'],
+          green: ['не может быть пустым', 'имеет непредусмотренное значение']
+        }
+      )
     end
 
     it 'returns errors representation' do
       expect(subject.from_model(model)).to eq(
         errors: [
           {
-            detail: %(can't be blank),
+            detail: %(не может быть пустым),
             source: {
               pointer: '/data/attributes/blue'
             }
           },
           {
-            detail: %(can't be blank),
+            detail: %(не может быть пустым),
             source: {
               pointer: '/data/attributes/green'
             }
           },
           {
-            detail: %(is not included in the list),
+            detail: %(имеет непредусмотренное значение),
             source: {
               pointer: '/data/attributes/green'
             }
