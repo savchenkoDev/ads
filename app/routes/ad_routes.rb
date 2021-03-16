@@ -1,5 +1,5 @@
 class AdRoutes < Application
-  helpers PaginationLinks
+  helpers PaginationLinks, Auth
 
   namespace '/v1' do
     get do
@@ -16,7 +16,7 @@ class AdRoutes < Application
 
       result = Ads::CreateService.call(
         ad: ad_params[:ad],
-        user_id: params[:user_id]
+        user_id: user_id
       )
 
       if result.success?

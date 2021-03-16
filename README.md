@@ -16,7 +16,7 @@
 1. Склонируйте репозиторий:
 
 ```
-git clone git@github.com:psylone/ads-microservice.git && cd ads-microservice
+git clone git@github.com:savchenkoDev/ads.git && cd ads
 ```
 
 2. Установите зависимости и создайте базу данных:
@@ -24,10 +24,10 @@ git clone git@github.com:psylone/ads-microservice.git && cd ads-microservice
 ```
 bundle install
 
-createdb -h localhost -U postgres ads_microservice_development
+createdb -h localhost -U postgres ads_dev
 bin/rake db:migrate
 
-createdb -h localhost -U postgres ads_microservice_test
+createdb -h localhost -U postgres ads_test
 RACK_ENV=test bin/rake db:migrate
 ```
 
