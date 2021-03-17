@@ -2,14 +2,28 @@ RSpec.describe Ads::CreateService do
   subject { described_class }
 
   let(:user_id) { 101 }
+  let(:geo_service) { instance_double('Geo service') }
+  let(:city) { 'City' }
+  let(:coordinates) { {'data' => {'lat' => 1.11111, 'lon' => 2.22222}} }
+
+  before do
+    allow(Geocoder::Client).to receive(:new)
+      .and_return(geo_service)
+  end
 
   context 'valid parameters' do
     let(:ad_params) do
       {
         title: 'Ad title',
         description: 'Ad description',
-        city: 'City'
+        city: city
       }
+    end
+
+    before do
+      allow(geo_service).to receive(:get)
+        .with(city)
+        .and_return(coordinates)
     end
 
     it 'creates a new ad' do
@@ -31,6 +45,12 @@ RSpec.describe Ads::CreateService do
         description: 'Ad description',
         city: ''
       }
+    end
+
+    before do
+      allow(geo_service).to receive(:get)
+        .with('')
+        .and_return({'errors' => {}})
     end
 
     it 'does not create ad' do

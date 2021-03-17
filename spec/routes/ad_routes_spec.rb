@@ -16,16 +16,24 @@ RSpec.describe AdRoutes, type: :routes do
 
   describe 'POST /v1' do
     let(:user_id) { 101 }
+    let(:coordinates) { {'data' => {'lat' => 1.11111, 'lon' => 2.22222}} }
     let(:auth_token) { 'valid_token' }
+    let(:city) { 'City' }
     let(:auth_service) { instance_double('Auth service') }
+    let(:geo_service) { instance_double('Geo service') }
 
     before do
       allow(auth_service).to receive(:auth)
         .with(auth_token)
         .and_return(user_id)
+      allow(geo_service).to receive(:get)
+        .with(city)
+        .and_return(coordinates)
 
       allow(AuthService::Client).to receive(:new)
         .and_return(auth_service)
+      allow(Geocoder::Client).to receive(:new)
+        .and_return(geo_service)
 
       header 'Authorization', "Bearer #{auth_token}"
     end
@@ -58,6 +66,30 @@ RSpec.describe AdRoutes, type: :routes do
       end
     end
 
+    context 'invalid city' do
+      let(:ad_params) do
+        {
+          title: 'Ad title',
+          description: 'Ad description',
+          city: '123city'
+        }
+      end
+
+      before do
+        allow(geo_service).to receive(:get)
+        .with(ad_params[:city])
+        .and_return({'errors'=>{}})
+      end
+
+      it 'returns an error' do
+        post '/v1', ad: ad_params
+
+        expect(last_response.status).to eq(201)
+        expect(Ad.last.lat).to be_nil
+        expect(Ad.last.lon).to be_nil
+      end
+    end
+
     context 'invalid parameters' do
       let(:ad_params) do
         {
@@ -65,6 +97,12 @@ RSpec.describe AdRoutes, type: :routes do
           description: 'Ad description',
           city: ''
         }
+      end
+
+      before do
+        allow(geo_service).to receive(:get)
+        .with(ad_params[:city])
+        .and_return({'errors'=>{}})
       end
 
       it 'returns an error' do
