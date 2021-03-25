@@ -32,7 +32,7 @@ RSpec.describe AdRoutes, type: :routes do
 
       allow(AuthService::Client).to receive(:new)
         .and_return(auth_service)
-      allow(Geocoder::Client).to receive(:new)
+      allow(GeocoderService::Client).to receive(:new)
         .and_return(geo_service)
 
       header 'Authorization', "Bearer #{auth_token}"
