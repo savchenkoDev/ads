@@ -7,7 +7,7 @@ RSpec.describe Ads::CreateService do
   let(:coordinates) { {'data' => {'lat' => 1.11111, 'lon' => 2.22222}} }
 
   before do
-    allow(Geocoder::Client).to receive(:new)
+    allow(GeocoderService::Client).to receive(:new)
       .and_return(geo_service)
   end
 

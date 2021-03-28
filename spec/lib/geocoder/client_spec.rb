@@ -1,4 +1,4 @@
-RSpec.describe Geocoder::Client, type: :client do
+RSpec.describe GeocoderService::Client, type: :client do
   subject { described_class.new(connection: connection) }
 
   let(:status) { 200 }

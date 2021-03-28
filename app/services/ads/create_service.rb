@@ -9,35 +9,22 @@ module Ads
     end
 
     option :user_id
+    option :geocoder_service, default: -> { GeocoderService::Client.new }
 
     attr_reader :ad
 
     def call
       @ad = ::Ad.new(@ad.to_h)
-      set_coordinates
       @ad.user_id = @user_id
 
       if @ad.valid?
         @ad.save
+        @geocoder_service.geocode_later(@ad)
       else
         fail!(@ad.errors)
       end
     end
 
     protected
-
-    def set_coordinates
-      response = geo_service.get(@ad.city)
-
-      if response.key?('data')
-        @ad.set(response['data'])
-      else
-        fail!(response['errors'])
-      end
-    end
-
-    def geo_service
-      @geo_service ||= Geocoder::Client.new
-    end
   end
 end

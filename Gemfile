@@ -18,6 +18,8 @@ gem 'config', '~> 2.2.1'
 gem 'pg', '~> 1.2.3'
 gem 'sequel', '~> 5.32.0'
 
+gem 'bunny'
+
 gem 'dry-initializer', '~> 3.0.3'
 gem 'dry-validation', '~> 1.5.0'
 
