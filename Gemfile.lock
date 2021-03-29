@@ -75,12 +75,19 @@ GEM
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
     nio4r (2.5.7)
+    oj (3.11.3)
+    ougai (1.9.1)
+      oj (~> 3.10)
     pg (1.2.3)
     puma (4.3.7)
       nio4r (~> 2.0)
     rack (2.2.3)
+    rack-ougai (0.2.1)
+      ougai (~> 1.5)
+      rack (~> 2.0)
     rack-protection (2.0.8.1)
       rack
+    rack-request-id (0.0.4)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rake (13.0.3)
@@ -135,6 +142,8 @@ DEPENDENCIES
   i18n (~> 1.8.2)
   pg (~> 1.2.3)
   puma (~> 4.3.0)
+  rack-ougai
+  rack-request-id
   rack-test (~> 1.1.0)
   rake (~> 13.0.1)
   rspec (~> 3.9.0)
