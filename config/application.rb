@@ -1,4 +1,7 @@
+require 'sinatra/custom_logger'
+
 class Application < Sinatra::Base
+  helpers Sinatra::CustomLogger
   helpers Validations
 
   configure do

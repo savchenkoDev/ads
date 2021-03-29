@@ -11,6 +11,8 @@ gem 'sinatra', '~> 2.0.0', require: 'sinatra/base'
 gem 'sinatra-contrib', '~> 2.0.0'
 gem 'faraday'
 gem 'faraday_middleware'
+gem 'rack-ougai'
+gem 'rack-request-id'
 
 gem 'i18n', '~> 1.8.2'
 gem 'config', '~> 2.2.1'
