@@ -20,7 +20,7 @@ module AuthService
 
     def start
       @reply_queue.subscribe do |delivery_info, properties, payload|
-        return unless properties[:correlation_id] == @correlation_id
+        next unless properties.headers['request_id'] == Thread.current['request_id']
         @user_id = payload.to_i
         @lock.synchronize {@condition.signal}
       end
@@ -50,7 +50,9 @@ module AuthService
           payload,
           opts.merge(
             app_id: 'auth',
-            correlation_id: @correlation_id,
+            headers: {
+              request_id: Thread.current[:request_id]
+            },
             reply_to: @reply_queue.name
           )
         )

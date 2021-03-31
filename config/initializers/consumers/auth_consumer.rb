@@ -3,10 +3,13 @@ queue = channel.queue('ads', durable: true)
 
 queue.subscribe do |delivery_info, properties, payload|
   payload = JSON(payload)
+  Thread.current[:request_id] = properties.headers['request_id']
 
   exchange.publish(
     '',
     routing_key: properties.reply_to,
-    correlation_id: properties.correlation_id
+    headers: {
+      request_id: Thread.current[:request_id]
+    }
   )
 end
