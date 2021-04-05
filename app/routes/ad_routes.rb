@@ -29,5 +29,10 @@ class AdRoutes < Application
         error_response result.ad
       end
     end
+
+    patch '/:id' do
+      result = Ads::UpdateService.call(id: params['id'], data: params['coordinates'])
+      result.success? ? status(200) : status(422)
+    end
   end
 end
