@@ -1,5 +1,9 @@
 /public
+/log
+!/log/.keep
 
 config/database.yml
+config/settings.local.yml
+config/settings/*.local.yml
 
 .byebug_history

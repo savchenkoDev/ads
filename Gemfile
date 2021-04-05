@@ -11,6 +11,8 @@ gem 'sinatra', '~> 2.0.0', require: 'sinatra/base'
 gem 'sinatra-contrib', '~> 2.0.0'
 gem 'faraday'
 gem 'faraday_middleware'
+gem 'rack-ougai'
+gem 'rack-request-id'
 
 gem 'i18n', '~> 1.8.2'
 gem 'config', '~> 2.2.1'
@@ -29,6 +31,10 @@ gem 'fast_jsonapi', '~> 1.5'
 
 group :development, :test do
   gem 'byebug'
+end
+
+group :development do
+  gem 'amazing_print'
 end
 
 group :test do
