@@ -4,7 +4,7 @@ namespace :db do
     require 'sequel/core'
     Sequel.extension :migration
 
-    Sequel.connect(Settings.db.to_hash) do |db|
+    Sequel.connect(Settings.db.url || Settings.db.to_hash) do |db|
       migrations = File.expand_path('../../db/migrations', __dir__)
       version = args.version.to_i if args.version
 
