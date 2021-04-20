@@ -16,7 +16,7 @@ class AdRoutes < Application
 
       result = Ads::CreateService.call(
         ad: ad_params[:ad],
-        user_id: user_id
+        user_id: 101
       )
 
       if result.success?

@@ -1,7 +1,7 @@
 # Code execution order is important during Sequel initialization process.
 # See http://sequel.jeremyevans.net/rdoc/files/doc/code_order_rdoc.html
 
-Sequel.connect(Settings.db.to_hash)
+Sequel.connect(Settings.db.url || Settings.db.to_hash)
 
 Sequel::Model.db.extension(:pagination)
 
